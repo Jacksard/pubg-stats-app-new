@@ -63,7 +63,10 @@ const Duo = props => {
 
   // comparison function
   const isMax = (type, data, index) => {
-    if (data[type].winners.length >= 1 && data[type].winners == Number(index)) {
+    if (
+      data[type].winners.length >= 1 &&
+      data[type].winners === Number(index)
+    ) {
       return 'maxValue';
     } else {
       return null;

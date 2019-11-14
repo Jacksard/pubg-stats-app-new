@@ -67,7 +67,7 @@ const Squad = props => {
 
     if (
       data[type].winners.length === 1 &&
-      data[type].winners == Number(index)
+      data[type].winners === Number(index)
     ) {
       return 'maxValue';
     } else {
