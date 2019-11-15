@@ -3,32 +3,12 @@ import { callPlayer } from '../api/axioscall';
 export const StatsContext = createContext();
 
 export const StatsContextProvider = props => {
-  const [state, setState] = useState({
-    playerName: '',
-    playersArray: [],
-    playersView: [],
-    playerGameType: [],
-    comparison: {
-      kd: null,
-      wins: null,
-      kills: null,
-      top10s: null,
-      longestKill: null,
-      HeadShotKills: null
-    },
-    loading: false,
-    error: {
-      isError: false,
-      msg: ''
-    }
-  });
-
   const [playerName, setPlayerName] = useState('');
   const [playersArray, setPlayersArray] = useState([]);
   const [playersView, setPlayersView] = useState([]);
   const [playerGameType, setPlayerGameType] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({ isError: true, msg: 'error msg' });
+  const [error, setError] = useState({ isError: false, msg: 'error msg' });
 
   const [comparisonData, setComparisonData] = useState({
     kd: { winners: [] },
@@ -67,18 +47,21 @@ export const StatsContextProvider = props => {
 
   // handle Change view
   const handleChangeView = (type, i) => {
+    console.log(type);
+    console.log(i);
     const newView = playersView;
     newView[i] = type;
-    setPlayersView(playersView(newView));
+    setPlayersView(newView);
   };
 
   // handle Change content
   const handleChangeContent = (type, i) => {
-    //console.log(type);
-    //console.log(i);
-    const newContent = state.playerGameType;
+    console.log(type);
+    console.log(i);
+    const newContent = playerGameType;
     newContent[i] = type;
     setPlayerGameType(newContent);
+    console.log(playerGameType);
   };
 
   // disable button while loading
@@ -96,7 +79,7 @@ export const StatsContextProvider = props => {
     setLoading(true);
     console.log(playersArray);
     // check if player name exists in players array before callPlayer, to avoid redundant API call
-    let userExist = playersArray.find(item => item.name === state.playerName);
+    let userExist = playersArray.find(item => item.name === playerName);
 
     console.log('user:' + userExist);
 
@@ -127,8 +110,8 @@ export const StatsContextProvider = props => {
         });
     } else {
       console.log('User added');
-      setState({ loading: false });
-      console.log(state.playersArray);
+      setLoading(false);
+      console.log(playersArray);
       return null;
     }
   };

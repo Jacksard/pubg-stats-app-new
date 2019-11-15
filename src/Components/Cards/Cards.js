@@ -24,8 +24,11 @@ class SimpleCard extends Component {
   handleViewType(type, i) {
     console.log(type);
     console.log(i);
-    if (i === 'tpp') {
-      this.setState({ view: null });
+    if (type === 'tpp') {
+      this.setState({ view: 'tpp' });
+    }
+    if (type === 'fpp') {
+      this.setState({ view: 'fpp' });
     }
     if (this.props.view[i] !== type) {
       this.props.changeView(type, i);
@@ -42,6 +45,13 @@ class SimpleCard extends Component {
   }
 
   render() {
+    const rank = (type, view) => {
+      if (view === 'tpp') {
+        return type;
+      } else {
+        return type + '-' + view;
+      }
+    };
     return (
       <React.Fragment>
         <Grid container direction='row' justify='center' alignItems='center'>
@@ -57,6 +67,9 @@ class SimpleCard extends Component {
                           index={i}
                           item={item}
                           gameType={this.state.gameType}
+                          rank={item.currentSeason.data.attributes.gameModeStats[
+                            rank(this.props.content[i], this.props.view[i])
+                          ].rankPoints.toFixed(0)}
                         />
                         {/*  item.name */}
                         {/* <h4>

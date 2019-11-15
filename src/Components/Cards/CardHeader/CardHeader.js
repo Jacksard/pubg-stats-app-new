@@ -68,13 +68,13 @@ class CardHeader extends Component {
   }
 
   render() {
-    /* const rank = () => {
+    const rank = () => {
       if (this.props.view === null) {
         return this.props.gameType;
       } else {
         return this.props.gameType + '-' + this.props.view;
       }
-    }; */
+    };
     const RankName = rank => {
       const rankNumber = parseInt(rank, 10);
 

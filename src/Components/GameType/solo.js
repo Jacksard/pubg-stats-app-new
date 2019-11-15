@@ -63,9 +63,8 @@ const Solo = props => {
       .headshotKills;
 
   // comparison function
-  const isMax = (type, data, index) => {
+  /*  const isMax = (type, data, index) => {
     //console.log(data);
-
     if (
       data[type].winners.length === 1 &&
       data[type].winners === Number(index)
@@ -74,7 +73,7 @@ const Solo = props => {
     } else {
       return null;
     }
-  };
+  }; */
 
   return (
     <React.Fragment>
@@ -88,59 +87,59 @@ const Solo = props => {
             <Grid item xs={12} className='test'>
               <p id='stats'>
                 K/D:{' '}
-                <span
+                {/* <span
                   className={isMax('kd', props.comparisonData, props.index)}
                 >
-                  {stats_kd_fpp}
-                </span>
+              </span> */}
+                {stats_kd_fpp}
               </p>
               <p id='stats'>
                 Wins:{' '}
-                <span
+                {/*  <span
                   className={isMax('wins', props.comparisonData, props.index)}
                 >
-                  {stats_wins_fpp}
-                </span>
+              </span> */}
+                {stats_wins_fpp}
               </p>
               <p id='stats'>
                 Kills:{' '}
-                <span
+                {/*  <span
                   className={isMax('kills', props.comparisonData, props.index)}
                 >
-                  {stats_kills_fpp}
-                </span>
+              </span> */}
+                {stats_kills_fpp}
               </p>
               <p id='stats'>
                 Top10s:{' '}
-                <span
+                {/* <span
                   className={isMax('top10s', props.comparisonData, props.index)}
                 >
-                  {stats_top10s_fpp}
-                </span>
+              </span> */}
+                {stats_top10s_fpp}
               </p>
               <p id='stats'>
                 Longest Kill:{' '}
-                <span
+                {/*  <span
                   className={isMax(
                     'longestKill',
                     props.comparisonData,
                     props.index
                   )}
                 >
-                  {stats_longestKill_fpp}
-                </span>
+              </span> */}
+                {stats_longestKill_fpp}
               </p>
               <p id='stats'>
                 Headshot Kills:{' '}
-                <span
+                {/* <span
                   className={isMax(
                     'headshotKills',
                     props.comparisonData,
                     props.index
                   )}
                 >
-                  {stats_headshotKills_fpp}
-                </span>
+              </span> */}
+                {stats_headshotKills_fpp}
               </p>
             </Grid>
           </Grid>
