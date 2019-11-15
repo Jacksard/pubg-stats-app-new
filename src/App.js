@@ -6,6 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import Navbar from './Components/Navbar/Navbar';
 import MainNew from './Components/Main/MainNew';
 
+//Context
+import StatsContextProvider from './Context/statsContext';
+
 // Init dotenv
 require('dotenv').config();
 
@@ -20,7 +23,9 @@ function App() {
           <Main />
         </Grid>
         <Grid item xs={12}>
-          <MainNew />
+          <StatsContextProvider>
+            <MainNew />
+          </StatsContextProvider>
         </Grid>
       </div>
     </div>
