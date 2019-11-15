@@ -11,7 +11,6 @@ export const StatsContextProvider = props => {
   const [error, setError] = useState({ isError: false, msg: 'error msg' });
 
   const [comparisonData, setComparisonData] = useState({
-    x: 1,
     kd: [],
     wins: [],
     kills: [],
@@ -119,7 +118,7 @@ export const StatsContextProvider = props => {
   // Use useEffect to struct the data that represents the conditional styling
   useEffect(() => {
     console.log('Use Effect ran');
-  });
+  }, [playersArray]);
 
   return (
     <StatsContext.Provider

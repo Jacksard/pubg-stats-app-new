@@ -5,7 +5,6 @@ import { StatsContext } from '../../Context/statsContext';
 
 const Solo = props => {
   const { comparisonData, setComparisonData } = useContext(StatsContext);
-  console.log(comparisonData.x);
 
   const stats_kd_fpp = (
     props.data[props.index].currentSeason.data.attributes.gameModeStats[
