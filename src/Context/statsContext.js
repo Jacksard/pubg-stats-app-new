@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { callPlayer } from '../api/axioscall';
 export const StatsContext = createContext();
 
@@ -11,20 +11,21 @@ export const StatsContextProvider = props => {
   const [error, setError] = useState({ isError: false, msg: 'error msg' });
 
   const [comparisonData, setComparisonData] = useState({
-    kd: { winners: [] },
-    wins: { winners: [] },
-    kills: { winners: [] },
-    top10s: { winners: [] },
-    longestKill: { winners: [] },
-    headshotKills: { winners: [] }
+    x: 1,
+    kd: [],
+    wins: [],
+    kills: [],
+    top10s: [],
+    longestKill: [],
+    headshotKills: []
   });
 
-  // handle Change name
+  // Handle Change name
   const handleChange = event => {
     setPlayerName(event.target.value);
   };
 
-  // handle Player delete
+  // Handle Player delete
   const handlePlayerDelete = id => {
     setLoading(true);
     console.log(id);
@@ -40,12 +41,11 @@ export const StatsContextProvider = props => {
     const newContent = [...playerGameType];
     newContent.splice(id, 1);
     setPlayerGameType(newContent);
-
     setLoading(false);
     console.log(playersArray);
   };
 
-  // handle Change view
+  // Handle Change view
   const handleChangeView = (type, i) => {
     console.log(type);
     console.log(i);
@@ -54,7 +54,7 @@ export const StatsContextProvider = props => {
     setPlayersView(newView);
   };
 
-  // handle Change content
+  // Handle Change content
   const handleChangeContent = (type, i) => {
     console.log(type);
     console.log(i);
@@ -64,7 +64,7 @@ export const StatsContextProvider = props => {
     console.log(playerGameType);
   };
 
-  // disable button while loading
+  // Disable button while loading
   const buttonDisabled = () => {
     if (!loading) {
       return false;
@@ -73,7 +73,7 @@ export const StatsContextProvider = props => {
     }
   };
 
-  // handle player submit
+  // Handle player submit
   const handlePlayerSubmit = event => {
     event.preventDefault();
     setLoading(true);
@@ -115,6 +115,11 @@ export const StatsContextProvider = props => {
       return null;
     }
   };
+
+  // Use useEffect to struct the data that represents the conditional styling
+  useEffect(() => {
+    console.log('Use Effect ran');
+  });
 
   return (
     <StatsContext.Provider

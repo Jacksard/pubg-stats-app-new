@@ -58,12 +58,12 @@ class currentGameType extends Component {
           .headshotKills
     );
 
-    /* console.log(kd);
+    console.log(kd);
     console.log(wins);
     console.log(kills);
     console.log(top10s);
     console.log(longestKill);
-    console.log(headshotKills); */
+    console.log(headshotKills);
 
     const comparisonCopy = this.state.comparisonData;
 
