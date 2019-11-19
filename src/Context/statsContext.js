@@ -141,7 +141,7 @@ export const StatsContextProvider = props => {
   // Use useEffect to struct the data that represents the conditional styling
   useEffect(() => {
     console.log('Use Effect ran');
-  });
+  }, [playersView, playerGameType]);
 
   return (
     <StatsContext.Provider
@@ -149,7 +149,9 @@ export const StatsContextProvider = props => {
         playerName,
         playersArray,
         playersView,
+        setPlayersView,
         playerGameType,
+        setPlayerGameType,
         isLoading,
         error,
         comparisonData,

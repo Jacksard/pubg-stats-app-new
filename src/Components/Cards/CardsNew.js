@@ -14,7 +14,9 @@ const SimpleCard = props => {
     isLoading,
     playersArray,
     playersView,
+    setPlayersView,
     playerGameType,
+    setPlayerGameType,
     handleChangePlayersView,
     handleGameType,
     handlePlayerDelete
@@ -26,15 +28,19 @@ const SimpleCard = props => {
   const handleViewType = (type, i) => {
     console.log(type);
     console.log(i);
-    if (type === 'tpp') {
+    /* if (type === 'tpp') {
       setView('tpp');
     }
     if (type === 'fpp') {
       setView('fpp');
-    }
+    } 
     if (playersView[i] !== type) {
       handleChangePlayersView(type, i);
     }
+    */
+    let newPlayerView = playersView;
+    newPlayerView[i] = type;
+    setPlayersView(newPlayerView);
   };
 
   const handleGameType2 = (type, i) => {
