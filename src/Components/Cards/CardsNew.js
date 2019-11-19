@@ -10,7 +10,15 @@ import CardHeader from './CardHeader/CardHeader';
 import { StatsContext } from '../../Context/statsContext';
 
 const SimpleCard = props => {
-  const { loading } = useContext(StatsContext);
+  const {
+    isLoading,
+    playersArray,
+    playersView,
+    playerGameType,
+    handleChangePlayersView,
+    handleGameType,
+    handlePlayerDelete
+  } = useContext(StatsContext);
 
   const [gameType, setGameType] = useState('solo');
   const [view, setView] = useState('fpp');
@@ -24,20 +32,11 @@ const SimpleCard = props => {
     if (type === 'fpp') {
       setView('fpp');
     }
-    if (props.playersView[i] !== type) {
-      //this.props.changeView(type, i);
-      props.handleChangePlayersView(type, i);
+    if (playersView[i] !== type) {
+      handleChangePlayersView(type, i);
     }
   };
 
-  const handleGameType = (type, i) => {
-    console.log(type);
-    console.log(i);
-    setGameType(type);
-    if (props.playerGameType[i] !== type) {
-      props.handleChangeContent(type, i);
-    }
-  };
   const rank = (type, view) => {
     if (view === 'tpp') {
       return type;
@@ -49,27 +48,14 @@ const SimpleCard = props => {
   return (
     <React.Fragment>
       <Grid container direction='row' justify='center' alignItems='center'>
-        {props.loading === false ? (
-          props.player.map((item, i) => {
+        {isLoading === false ? (
+          playersArray.map((item, i) => {
             return (
               <li key={shortid.generate()}>
                 <Card className='card'>
                   <Grid container spacing={0}>
                     <Grid item xs={12} className='headLeft'>
-                      <CardHeader
-                        delete={props.delete}
-                        index={i}
-                        item={item}
-                        gameType={this.state.gameType}
-                        rank={item.currentSeason.data.attributes.gameModeStats[
-                          rank(this.props.content[i], this.props.view[i])
-                        ].rankPoints.toFixed(0)}
-                      />
-                      {/*  item.name */}
-                      {/* <h4>
-                    {' '}
-                    
-                  </h4> */}
+                      <CardHeader item={item} delete={handlePlayerDelete} />
                     </Grid>
                   </Grid>
                   <hr />
@@ -79,13 +65,11 @@ const SimpleCard = props => {
                       item
                       xs={6}
                       className='gameType'
-                      onClick={this.handleViewType.bind(this, 'fpp', i)}
+                      onClick={() => handleViewType('fpp', i)}
                     >
                       <div
                         className={
-                          this.props.view[i] === 'fpp'
-                            ? 'selectedTab'
-                            : 'styleTab'
+                          view[i] === 'fpp' ? 'selectedTab' : 'styleTab'
                         }
                       >
                         FPP
@@ -95,13 +79,11 @@ const SimpleCard = props => {
                       item
                       xs={6}
                       className='gameType'
-                      onClick={this.handleViewType.bind(this, 'tpp', i)}
+                      onClick={() => handleViewType('tpp', i)}
                     >
                       <div
                         className={
-                          this.props.view[i] === 'tpp'
-                            ? 'selectedTab'
-                            : 'styleTab'
+                          view[i] === 'tpp' ? 'selectedTab' : 'styleTab'
                         }
                       >
                         TPP
@@ -115,11 +97,11 @@ const SimpleCard = props => {
                       item
                       xs={4}
                       className='gameType'
-                      onClick={this.handleGameType.bind(this, 'solo', i)}
+                      onClick={() => handleGameType('solo', i)}
                     >
                       <div
                         className={
-                          this.props.content[i] === 'solo'
+                          playerGameType[i] === 'solo'
                             ? 'selectedTab'
                             : 'styleTab'
                         }
@@ -131,11 +113,11 @@ const SimpleCard = props => {
                       item
                       xs={4}
                       className='gameType'
-                      onClick={this.handleGameType.bind(this, 'duo', i)}
+                      onClick={() => handleGameType('duo', i)}
                     >
                       <div
                         className={
-                          this.props.content[i] === 'duo'
+                          playerGameType[i] === 'duo'
                             ? 'selectedTab'
                             : 'styleTab'
                         }
@@ -147,11 +129,11 @@ const SimpleCard = props => {
                       item
                       xs={4}
                       className='gameType'
-                      onClick={this.handleGameType.bind(this, 'squad', i)}
+                      onClick={() => handleGameType('squad', i)}
                     >
                       <div
                         className={
-                          this.props.content[i] === 'squad'
+                          playerGameType[i] === 'squad'
                             ? 'selectedTab'
                             : 'styleTab'
                         }
@@ -160,24 +142,17 @@ const SimpleCard = props => {
                       </div>
                     </Grid>
                   </Grid>
-                  <CurrentGameType
-                    view={this.props.view}
-                    content={this.props.content[i]}
-                    index={i}
-                    data={this.props.player}
-                    className='currentGameType'
-                  />
 
                   {/* <div className='fabDiv'>
-                <Fab
-                  color='primary'
-                  aria-label='add'
-                  className='fab'
-                  size='small'
-                >
-                  <AddIcon className='addIcon' />
-                </Fab>
-              </div> */}
+                      <Fab
+                        color='primary'
+                        aria-label='add'
+                        className='fab'
+                        size='small'
+                      >
+                        <AddIcon className='addIcon' />
+                      </Fab>
+                    </div> */}
                 </Card>
               </li>
             );

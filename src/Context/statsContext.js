@@ -7,7 +7,7 @@ export const StatsContextProvider = props => {
   const [playersArray, setPlayersArray] = useState([]);
   const [playersView, setPlayersView] = useState([]);
   const [playerGameType, setPlayerGameType] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState({ isError: false, msg: 'error msg' });
 
   const [comparisonData, setComparisonData] = useState({
@@ -24,9 +24,42 @@ export const StatsContextProvider = props => {
     setPlayerName(event.target.value);
   };
 
+  // Handle Game Type
+  const handleGameType = (type, i) => {
+    console.log(type);
+    console.log(i);
+    setPlayerGameType(type);
+    if (playerGameType[i] !== type) {
+      handleChangeContent(type, i);
+    }
+  };
+
+  // handle Change PlayerGameType
+  const handleChangeContent = (type, i) => {
+    let newContent = playerGameType;
+    newContent[i] = type;
+    setPlayerGameType(newContent);
+  };
+
+  // Handle view game type:
+  /* const handleViewType = (type, i) => {
+    console.log(type);
+    console.log(i);
+    if (type === 'tpp') {
+      setView('tpp');
+    }
+    if (type === 'fpp') {
+      setView('fpp');
+    }
+    if (playersView[i] !== type) {
+      //this.props.changeView(type, i);
+      handleChangePlayersView(type, i);
+    }
+  }; */
+
   // Handle Player delete
   const handlePlayerDelete = id => {
-    setLoading(true);
+    setIsLoading(true);
     console.log(id);
     // splice player from playersArray
     const joined = [...playersArray];
@@ -40,7 +73,7 @@ export const StatsContextProvider = props => {
     const newContent = [...playerGameType];
     newContent.splice(id, 1);
     setPlayerGameType(newContent);
-    setLoading(false);
+    setIsLoading(false);
     console.log(playersArray);
   };
 
@@ -53,19 +86,9 @@ export const StatsContextProvider = props => {
     setPlayersView(newView);
   };
 
-  // Handle Change content
-  const handleChangeContent = (type, i) => {
-    console.log(type);
-    console.log(i);
-    const newContent = playerGameType;
-    newContent[i] = type;
-    setPlayerGameType(newContent);
-    console.log(playerGameType);
-  };
-
   // Disable button while loading
   const buttonDisabled = () => {
-    if (!loading) {
+    if (!isLoading) {
       return false;
     } else {
       return true;
@@ -75,7 +98,7 @@ export const StatsContextProvider = props => {
   // Handle player submit
   const handlePlayerSubmit = event => {
     event.preventDefault();
-    setLoading(true);
+    setIsLoading(true);
     console.log(playersArray);
     // check if player name exists in players array before callPlayer, to avoid redundant API call
     let userExist = playersArray.find(item => item.name === playerName);
@@ -89,7 +112,7 @@ export const StatsContextProvider = props => {
           if (res === undefined) {
             setError({ isError: true, msg: 'Player not found!' });
 
-            setLoading(false);
+            setIsLoading(false);
           } else {
             var joined = playersArray.concat(res);
             setPlayersArray(joined);
@@ -98,7 +121,7 @@ export const StatsContextProvider = props => {
             setPlayersView(playersView.concat('fpp'));
             // Comparison data
 
-            setLoading(false);
+            setIsLoading(false);
             setPlayerName('');
             //console.log(this.state.playerGameType);
             console.log(playersArray);
@@ -109,7 +132,7 @@ export const StatsContextProvider = props => {
         });
     } else {
       console.log('User added');
-      setLoading(false);
+      setIsLoading(false);
       console.log(playersArray);
       return null;
     }
@@ -127,7 +150,7 @@ export const StatsContextProvider = props => {
         playersArray,
         playersView,
         playerGameType,
-        loading,
+        isLoading,
         error,
         comparisonData,
         handleChange,
@@ -135,7 +158,8 @@ export const StatsContextProvider = props => {
         handleChangePlayersView,
         handleChangeContent,
         buttonDisabled,
-        handlePlayerSubmit
+        handlePlayerSubmit,
+        handleGameType
       }}
     >
       {props.children}

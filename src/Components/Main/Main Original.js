@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Cards from '../Cards/Cards';
+import Cards from '../Cards/CardsNew';
 import './Main.css';
 import { callPlayer } from '../../api/axioscall';
 
