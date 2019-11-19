@@ -24,14 +24,23 @@ export const StatsContextProvider = props => {
     setPlayerName(event.target.value);
   };
 
+  // Handle Change view
+  const handleChangePlayersView = (type, i) => {
+    console.log(type);
+    console.log(i);
+    let newView = playersView;
+    newView[i] = type;
+    setPlayersView(newView);
+  };
   // Handle Game Type
   const handleGameType = (type, i) => {
     console.log(type);
     console.log(i);
-    setPlayerGameType(type);
-    if (playerGameType[i] !== type) {
-      handleChangeContent(type, i);
-    }
+    let newPlayersGameType = playerGameType;
+    newPlayersGameType[i] = type;
+    setPlayerGameType(newPlayersGameType);
+
+    console.log(playerGameType);
   };
 
   // handle Change PlayerGameType
@@ -77,15 +86,6 @@ export const StatsContextProvider = props => {
     console.log(playersArray);
   };
 
-  // Handle Change view
-  const handleChangePlayersView = (type, i) => {
-    console.log(type);
-    console.log(i);
-    const newView = playersView;
-    newView[i] = type;
-    setPlayersView(newView);
-  };
-
   // Disable button while loading
   const buttonDisabled = () => {
     if (!isLoading) {
@@ -121,8 +121,8 @@ export const StatsContextProvider = props => {
             setPlayersView(playersView.concat('fpp'));
             // Comparison data
 
-            setIsLoading(false);
             setPlayerName('');
+            setIsLoading(false);
             //console.log(this.state.playerGameType);
             console.log(playersArray);
           }
@@ -141,7 +141,7 @@ export const StatsContextProvider = props => {
   // Use useEffect to struct the data that represents the conditional styling
   useEffect(() => {
     console.log('Use Effect ran');
-  }, [playersArray]);
+  });
 
   return (
     <StatsContext.Provider

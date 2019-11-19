@@ -1,4 +1,4 @@
-import React, { Component, useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Card from '@material-ui/core/Card';
 import shortid from 'shortid';
 import Grid from '@material-ui/core/Grid';
@@ -21,7 +21,7 @@ const SimpleCard = props => {
   } = useContext(StatsContext);
 
   const [gameType, setGameType] = useState('solo');
-  const [view, setView] = useState('fpp');
+  const [view, setView] = useState(['fpp']);
 
   const handleViewType = (type, i) => {
     console.log(type);
@@ -37,6 +37,12 @@ const SimpleCard = props => {
     }
   };
 
+  const handleGameType2 = (type, i) => {
+    if (playerGameType[i] !== type) {
+      handleGameType(type, i);
+    }
+  };
+
   const rank = (type, view) => {
     if (view === 'tpp') {
       return type;
@@ -44,6 +50,10 @@ const SimpleCard = props => {
       return type + '-' + view;
     }
   };
+
+  useEffect(() => {
+    console.log('re-rendered');
+  });
 
   return (
     <React.Fragment>
@@ -69,7 +79,7 @@ const SimpleCard = props => {
                     >
                       <div
                         className={
-                          view[i] === 'fpp' ? 'selectedTab' : 'styleTab'
+                          playersView[i] === 'fpp' ? 'selectedTab' : 'styleTab'
                         }
                       >
                         FPP
@@ -83,7 +93,7 @@ const SimpleCard = props => {
                     >
                       <div
                         className={
-                          view[i] === 'tpp' ? 'selectedTab' : 'styleTab'
+                          playersView[i] === 'tpp' ? 'selectedTab' : 'styleTab'
                         }
                       >
                         TPP
@@ -97,7 +107,7 @@ const SimpleCard = props => {
                       item
                       xs={4}
                       className='gameType'
-                      onClick={() => handleGameType('solo', i)}
+                      onClick={() => handleGameType2('solo', i)}
                     >
                       <div
                         className={
@@ -113,7 +123,7 @@ const SimpleCard = props => {
                       item
                       xs={4}
                       className='gameType'
-                      onClick={() => handleGameType('duo', i)}
+                      onClick={() => handleGameType2('duo', i)}
                     >
                       <div
                         className={
@@ -129,7 +139,7 @@ const SimpleCard = props => {
                       item
                       xs={4}
                       className='gameType'
-                      onClick={() => handleGameType('squad', i)}
+                      onClick={() => handleGameType2('squad', i)}
                     >
                       <div
                         className={

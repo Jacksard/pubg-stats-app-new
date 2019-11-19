@@ -4,8 +4,6 @@ import Grid from '@material-ui/core/Grid';
 import { StatsContext } from '../../Context/statsContext';
 
 const Solo = props => {
-  const { comparisonData, setComparisonData } = useContext(StatsContext);
-
   const stats_kd_fpp = (
     props.data[props.index].currentSeason.data.attributes.gameModeStats[
       'solo-fpp'
