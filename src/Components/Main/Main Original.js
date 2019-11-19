@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 class api extends Component {
   constructor(props) {
     super(props);
+    this.inputRef = React.createRef();
     this.state = {
       playerName: '',
       playersArray: [],
@@ -43,6 +44,7 @@ class api extends Component {
   }
 
   handleChange(event) {
+    this.inputRef.current.focus();
     this.setState({ playerName: event.target.value });
   }
 
@@ -104,7 +106,7 @@ class api extends Component {
             this.setState({ msg: 'Player not found!' });
             this.setState({ loading: false });
           } else {
-            var joined = this.state.playersArray.concat(res);
+            let joined = this.state.playersArray.concat(res);
             this.setState({
               playersArray: joined
             });
@@ -155,6 +157,7 @@ class api extends Component {
               className='inputField'
               onChange={this.handleChange}
               value={this.state.playerName}
+              ref={this.inputRef}
             />
             <br />
             <Button type='submit' value='Submit' className='submitButton'>

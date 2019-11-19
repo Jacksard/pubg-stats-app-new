@@ -45,7 +45,7 @@ export const StatsContextProvider = props => {
   };
 
   // Handle Change view
-  const handleChangeView = (type, i) => {
+  const handleChangePlayersView = (type, i) => {
     console.log(type);
     console.log(i);
     const newView = playersView;
@@ -132,7 +132,7 @@ export const StatsContextProvider = props => {
         comparisonData,
         handleChange,
         handlePlayerDelete,
-        handleChangeView,
+        handleChangePlayersView,
         handleChangeContent,
         buttonDisabled,
         handlePlayerSubmit

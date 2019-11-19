@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import Cards from '../Cards/Cards';
+import CardsNew from '../Cards/CardsNew';
 import './MainNew.css';
 import { callPlayer } from '../../api/axioscall';
 import Button from '@material-ui/core/Button';
@@ -7,18 +7,18 @@ import { StatsContext } from '../../Context/statsContext';
 
 const MainNew = () => {
   const {
-    playerName,
-    playersArray,
-    playersView,
-    playerGameType,
-    loading,
-    error,
+    handlePlayerSubmit,
     handleChange,
-    handlePlayerDelete,
-    handleChangeView,
-    handleChangeContent,
+    playerName,
     buttonDisabled,
-    handlePlayerSubmit
+    error,
+
+    playersArray,
+    playerGameType,
+    playersView,
+    handlePlayerDelete,
+    handleChangePlayersView,
+    handleChangeContent
   } = useContext(StatsContext);
 
   useEffect(() => {
@@ -61,15 +61,7 @@ const MainNew = () => {
       </form>
       <div className='cardContainer'>
         <ul>
-          <Cards
-            view={playersView}
-            content={playerGameType}
-            changeContent={handleChangeContent}
-            changeView={handleChangeView}
-            player={playersArray}
-            delete={handlePlayerDelete}
-            isLoading={loading}
-          />
+          <CardsNew />
         </ul>
       </div>
     </div>
