@@ -34,8 +34,8 @@ const MainNew = () => {
           <input
             label='Name'
             className='inputField'
-            onChange={handleChangeName}
-            value={playerName}
+            onChange={this.handleChangeName}
+            value={this.playerName}
           />
           <br />
           <Button type='submit' value='Submit' className='submitButton'>
