@@ -19,35 +19,12 @@ const SimpleCard = props => {
     setPlayerGameType,
     handleChangePlayersView,
     handleGameType,
-    handlePlayerDelete
+    handlePlayerDelete,
+    handleChangeGameType
   } = useContext(StatsContext);
 
-  const [gameType, setGameType] = useState('solo');
-  const [view, setView] = useState(['fpp']);
-
-  const handleViewType = (type, i) => {
-    console.log(type);
-    console.log(i);
-    /* if (type === 'tpp') {
-      setView('tpp');
-    }
-    if (type === 'fpp') {
-      setView('fpp');
-    } 
-    if (playersView[i] !== type) {
-      handleChangePlayersView(type, i);
-    }
-    */
-    let newPlayerView = playersView;
-    newPlayerView[i] = type;
-    setPlayersView(newPlayerView);
-  };
-
-  const handleGameType2 = (type, i) => {
-    if (playerGameType[i] !== type) {
-      handleGameType(type, i);
-    }
-  };
+  const [gameType, setGameType] = useState(null);
+  const [view, setView] = useState(null);
 
   const rank = (type, view) => {
     if (view === 'tpp') {
@@ -58,8 +35,14 @@ const SimpleCard = props => {
   };
 
   useEffect(() => {
-    console.log('re-rendered');
-  });
+    console.log('test');
+    console.log(view);
+    console.log(playersView);
+    console.log(gameType);
+    console.log(playerGameType);
+    setView(playersView);
+    setGameType(playerGameType);
+  }, [playersView, playerGameType, playersArray]);
 
   return (
     <React.Fragment>
@@ -74,6 +57,7 @@ const SimpleCard = props => {
                       <CardHeader item={item} delete={handlePlayerDelete} />
                     </Grid>
                   </Grid>
+
                   <hr />
                   {/* ------ View Mode menu ------ */}
                   <Grid container spacing={2} className='gameTypeContainer'>
@@ -81,7 +65,7 @@ const SimpleCard = props => {
                       item
                       xs={6}
                       className='gameType'
-                      onClick={() => handleViewType('fpp', i)}
+                      onClick={() => handleChangePlayersView('fpp', i)}
                     >
                       <div
                         className={
@@ -95,7 +79,7 @@ const SimpleCard = props => {
                       item
                       xs={6}
                       className='gameType'
-                      onClick={() => handleViewType('tpp', i)}
+                      onClick={() => handleChangePlayersView('tpp', i)}
                     >
                       <div
                         className={
@@ -113,11 +97,11 @@ const SimpleCard = props => {
                       item
                       xs={4}
                       className='gameType'
-                      onClick={() => handleGameType2('solo', i)}
+                      onClick={() => handleChangeGameType('solo', i)}
                     >
                       <div
                         className={
-                          playerGameType[i] === 'solo'
+                          playerGameType[i] === 'solo' || undefined
                             ? 'selectedTab'
                             : 'styleTab'
                         }
@@ -129,7 +113,7 @@ const SimpleCard = props => {
                       item
                       xs={4}
                       className='gameType'
-                      onClick={() => handleGameType2('duo', i)}
+                      onClick={() => handleChangeGameType('duo', i)}
                     >
                       <div
                         className={
@@ -145,7 +129,7 @@ const SimpleCard = props => {
                       item
                       xs={4}
                       className='gameType'
-                      onClick={() => handleGameType2('squad', i)}
+                      onClick={() => handleChangeGameType('squad', i)}
                     >
                       <div
                         className={

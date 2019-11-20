@@ -8,11 +8,11 @@ import { StatsContext } from '../../Context/statsContext';
 const MainNew = () => {
   const {
     handlePlayerSubmit,
-    handleChange,
+    handleChangeName,
     playerName,
     buttonDisabled,
     error,
-
+    isLoading,
     playersArray,
     playerGameType,
     playersView,
@@ -22,7 +22,7 @@ const MainNew = () => {
   } = useContext(StatsContext);
 
   useEffect(() => {
-    console.log(playersArray);
+    console.log('button: ' + buttonDisabled());
   }, [playersArray]);
 
   return (
@@ -34,7 +34,7 @@ const MainNew = () => {
           <input
             label='Name'
             className='inputField'
-            onChange={handleChange}
+            onChange={handleChangeName}
             value={playerName}
           />
           <br />
@@ -43,18 +43,25 @@ const MainNew = () => {
           </Button>
         </div>
         <button
-          onClick={handleChange}
+          onClick={handleChangeName}
           value='J4cksard'
-          disabled={buttonDisabled()}
+          disabled={isLoading}
         >
           J4cksard
         </button>
         <button
-          onClick={handleChange}
+          onClick={handleChangeName}
           value='Twisted_OO'
-          disabled={buttonDisabled()}
+          disabled={buttonDisabled}
         >
           Twisted_OO
+        </button>
+        <button
+          onClick={handleChangeName}
+          value='chikenkk'
+          disabled={buttonDisabled()}
+        >
+          chikenkk
         </button>
 
         {error.isError === true ? <h4>{error.msg}</h4> : null}

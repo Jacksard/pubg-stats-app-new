@@ -1,57 +1,180 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { Component, createContext, useState, useEffect } from 'react';
 import { callPlayer } from '../api/axioscall';
 export const StatsContext = createContext();
 
-export const StatsContextProvider = props => {
-  const [playerName, setPlayerName] = useState('');
-  const [playersArray, setPlayersArray] = useState([]);
-  const [playersView, setPlayersView] = useState([]);
-  const [playerGameType, setPlayerGameType] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState({ isError: false, msg: 'error msg' });
+class StatsContextProvider extends Component {
+  constructor() {
+    super();
+    this.state = {
+      playerName: '',
+      playersArray: [],
+      playersViewType: [],
+      playersGameType: [],
+      comparison: {
+        kd: null,
+        wins: null,
+        kills: null,
+        top10s: null,
+        longestKill: null,
+        HeadShotKills: null
+      },
+      isLoading: false,
+      error: {
+        isError: false,
+        msg: ''
+      },
+      comparisonData: {
+        kd: [],
+        wins: [],
+        kills: [],
+        top10s: [],
+        longestKill: [],
+        headshotKills: []
+      }
+    };
 
-  const [comparisonData, setComparisonData] = useState({
-    kd: [],
-    wins: [],
-    kills: [],
-    top10s: [],
-    longestKill: [],
-    headshotKills: []
-  });
+    this.handleChangeName = this.handleChangeName.bind(this);
+    this.handlePlayerSubmit = this.handlePlayerSubmit.bind(this);
+    this.handlePlayerDelete = this.handlePlayerDelete.bind(this);
+    /* this.handleNameButtons = this.handleNameButtons.bind(this); */
+    this.handleChangePlayersViewType = this.handleChangePlayersViewType.bind(
+      this
+    );
+    this.handleChangePlayersGameType = this.handleChangePlayersGameType.bind(
+      this
+    );
+    this.buttonDisabled = this.buttonDisabled.bind(this);
+  }
 
   // Handle Change name
-  const handleChange = event => {
-    setPlayerName(event.target.value);
-  };
+  handleChangeName(event) {
+    this.setState({ playerName: event.target.value });
+  }
 
   // Handle Change view
-  const handleChangePlayersView = (type, i) => {
+  handleChangePlayersViewType(type, i) {
     console.log(type);
     console.log(i);
-    let newView = playersView;
-    newView[i] = type;
-    setPlayersView(newView);
-  };
+    let newView = this.state.playersViewType;
+    if (newView[i] === type) {
+      return null;
+    } else {
+      newView[i] = type;
+    }
+    this.setState({ playersViewType: newView });
+    console.log(newView);
+  }
   // Handle Game Type
-  const handleGameType = (type, i) => {
+  handleChangePlayersGameType(type, i) {
     console.log(type);
     console.log(i);
-    let newPlayersGameType = playerGameType;
+    let newPlayersGameType = this.state.playersGameType;
     newPlayersGameType[i] = type;
-    setPlayerGameType(newPlayersGameType);
+    this.setState({ playersGameType: newPlayersGameType });
 
-    console.log(playerGameType);
-  };
+    console.log(this.state.playersGameType);
+  }
 
-  // handle Change PlayerGameType
-  const handleChangeContent = (type, i) => {
-    let newContent = playerGameType;
-    newContent[i] = type;
-    setPlayerGameType(newContent);
-  };
+  // --------->> Continue here. 03:16PM
 
-  // Handle view game type:
-  /* const handleViewType = (type, i) => {
+  // Handle Player delete
+  handlePlayerDelete(id) {
+    this.setState({ isLoading: true });
+    console.log(id);
+    // splice player from playersArray
+    let newPlayersArray = this.state.playersArray;
+    newPlayersArray.splice(id, 1);
+    this.setState({ playersArray: newPlayersArray });
+    // splice player View from playersView arary
+    let newView = [...this.state.playersView];
+    newView.splice(id, 1);
+    this.setState({ playersViewType: newView });
+    // splice player View from playerGameType array
+    let newContent = [...this.state.playersGameType];
+    newContent.splice(id, 1);
+    this.setState({ playersGameType: newContent });
+    this.setState({ IsLoading: false });
+    console.log(this.state.playersArray);
+  }
+
+  // Disable button while loading
+  buttonDisabled() {
+    if (!this.state.isLoading) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  // Handle player submit
+  handlePlayerSubmit(event) {
+    event.preventDefault();
+    this.setState({ IsLoading: true });
+    console.log(this.state.playersArray);
+    // check if player name exists in players array before callPlayer, to avoid redundant API call
+    let userExist = this.state.playersArray.find(
+      item => item.name === this.state.playerName
+    );
+
+    console.log('user:' + userExist);
+
+    if (userExist === undefined) {
+      callPlayer(this.state.playerName)
+        .then(res => {
+          // Build Players Object and push it into PlayersArray.
+          if (res === undefined) {
+            this.setState({ isError: true });
+            this.setState({ msg: 'Player not found!' });
+            this.setState({ loading: false });
+          } else {
+            let joined = this.state.playersArray.concat(res);
+            this.setState({
+              playersArray: joined
+            });
+            //console.log(this.state.playersArray);
+            this.setState({
+              playerGameType: this.state.playerGameType.concat('solo')
+            });
+            this.setState({
+              playersView: this.state.playersView.concat('fpp')
+            });
+            // Comparison data
+
+            this.setState({ comparison: null });
+
+            this.setState({ loading: false });
+            this.setState({ playerName: '' });
+            //console.log(this.state.playerGameType);
+            console.log(this.state.playersArray);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      console.log('User added');
+      this.setState({ loading: false });
+      return null;
+    }
+  }
+
+  render() {
+    return (
+      <StatsContext.Provider
+        value={{
+          ...this.state,
+          buttonDisabled: this.buttonDisabled,
+          handleChangeName: this.handleChangeName
+        }}
+      >
+        {this.props.children}
+      </StatsContext.Provider>
+    );
+  }
+}
+
+// Handle view game type:
+/* const handleViewType = (type, i) => {
     console.log(type);
     console.log(i);
     if (type === 'tpp') {
@@ -66,107 +189,28 @@ export const StatsContextProvider = props => {
     }
   }; */
 
-  // Handle Player delete
-  const handlePlayerDelete = id => {
-    setIsLoading(true);
-    console.log(id);
-    // splice player from playersArray
-    const joined = [...playersArray];
-    joined.splice(id, 1);
-    setPlayersArray(joined);
-    // splice player View from playersView arary
-    const newView = [...playersView];
-    newView.splice(id, 1);
-    setPlayersView(newView);
-    // splice player View from playerGameType array
-    const newContent = [...playerGameType];
-    newContent.splice(id, 1);
-    setPlayerGameType(newContent);
-    setIsLoading(false);
-    console.log(playersArray);
-  };
-
-  // Disable button while loading
-  const buttonDisabled = () => {
-    if (!isLoading) {
-      return false;
-    } else {
-      return true;
-    }
-  };
-
-  // Handle player submit
-  const handlePlayerSubmit = event => {
-    event.preventDefault();
-    setIsLoading(true);
-    console.log(playersArray);
-    // check if player name exists in players array before callPlayer, to avoid redundant API call
-    let userExist = playersArray.find(item => item.name === playerName);
-
-    console.log('user:' + userExist);
-
-    if (userExist === undefined) {
-      callPlayer(playerName)
-        .then(res => {
-          // Build Players Object and push it into PlayersArray.
-          if (res === undefined) {
-            setError({ isError: true, msg: 'Player not found!' });
-
-            setIsLoading(false);
-          } else {
-            var joined = playersArray.concat(res);
-            setPlayersArray(joined);
-            //console.log(this.state.playersArray);
-            setPlayerGameType(playerGameType.concat('solo'));
-            setPlayersView(playersView.concat('fpp'));
-            // Comparison data
-
-            setPlayerName('');
-            setIsLoading(false);
-            //console.log(this.state.playerGameType);
-            console.log(playersArray);
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    } else {
-      console.log('User added');
-      setIsLoading(false);
-      console.log(playersArray);
-      return null;
-    }
-  };
-
-  // Use useEffect to struct the data that represents the conditional styling
-  useEffect(() => {
+// Use useEffect to struct the data that represents the conditional styling
+/* useEffect(() => {
     console.log('Use Effect ran');
-  }, [playersView, playerGameType]);
-
-  return (
-    <StatsContext.Provider
-      value={{
-        playerName,
-        playersArray,
-        playersView,
-        setPlayersView,
-        playerGameType,
-        setPlayerGameType,
-        isLoading,
-        error,
-        comparisonData,
-        handleChange,
-        handlePlayerDelete,
-        handleChangePlayersView,
-        handleChangeContent,
-        buttonDisabled,
-        handlePlayerSubmit,
-        handleGameType
-      }}
-    >
-      {props.children}
-    </StatsContext.Provider>
-  );
-};
+  }, [playersView, playerGameType]); */
 
 export default StatsContextProvider;
+
+/* value={{
+  playerName,
+  playersArray,
+  playersView,
+  setPlayersView,
+  playerGameType,
+  setPlayerGameType,
+  isLoading,
+  error,
+  comparisonData,
+  handleChange,
+  handlePlayerDelete,
+  handleChangePlayersView,
+  handleChangeGameType,
+  buttonDisabled,
+  handlePlayerSubmit,
+  handleGameType
+}} */
