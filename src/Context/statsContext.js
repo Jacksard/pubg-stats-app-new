@@ -165,7 +165,9 @@ class StatsContextProvider extends Component {
           ...this.state,
           buttonDisabled: this.buttonDisabled,
           handleChangeName: this.handleChangeName,
-          handlePlayerDelete: this.handlePlayerDelete
+          handlePlayerDelete: this.handlePlayerDelete,
+          handleChangePlayersViewType: this.handleChangePlayersViewType,
+          handleChangePlayersGameType: this.handleChangePlayersGameType
         }}
       >
         {this.props.children}

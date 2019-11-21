@@ -69,7 +69,7 @@ const MainNew = () => {
       </form>
       <div className='cardContainer'>
         <ul>
-          <Card
+          {/* <Card
             view={playersViewType}
             content={playersGameType}
             changeContent={handleChangePlayersGameType}
@@ -77,8 +77,8 @@ const MainNew = () => {
             player={playersArray}
             delete={handlePlayerDelete}
             isLoading={isLoading}
-          />
-          {/* <CardsNew /> */}
+          /> */}
+          <CardsNew />
         </ul>
       </div>
     </div>

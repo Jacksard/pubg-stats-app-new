@@ -13,14 +13,14 @@ const SimpleCard = props => {
   const {
     isLoading,
     playersArray,
-    playersView,
+    playersViewType,
     setPlayersView,
-    playerGameType,
+    playersGameType,
     setPlayerGameType,
-    handleChangePlayersView,
+    handleChangePlayersViewType,
     handleGameType,
     handlePlayerDelete,
-    handleChangeGameType
+    handleChangePlayersGameType
   } = useContext(StatsContext);
 
   const [gameType, setGameType] = useState(null);
@@ -57,11 +57,13 @@ const SimpleCard = props => {
                       item
                       xs={6}
                       className='gameType'
-                      onClick={() => handleChangePlayersView('fpp', i)}
+                      onClick={() => handleChangePlayersViewType('fpp', i)}
                     >
                       <div
                         className={
-                          playersView[i] === 'fpp' ? 'selectedTab' : 'styleTab'
+                          playersViewType[i] === 'fpp'
+                            ? 'selectedTab'
+                            : 'styleTab'
                         }
                       >
                         FPP
@@ -71,11 +73,13 @@ const SimpleCard = props => {
                       item
                       xs={6}
                       className='gameType'
-                      onClick={() => handleChangePlayersView('tpp', i)}
+                      onClick={() => handleChangePlayersViewType('tpp', i)}
                     >
                       <div
                         className={
-                          playersView[i] === 'tpp' ? 'selectedTab' : 'styleTab'
+                          playersViewType[i] === 'tpp'
+                            ? 'selectedTab'
+                            : 'styleTab'
                         }
                       >
                         TPP
@@ -89,11 +93,11 @@ const SimpleCard = props => {
                       item
                       xs={4}
                       className='gameType'
-                      onClick={() => handleChangeGameType('solo', i)}
+                      onClick={() => handleChangePlayersGameType('solo', i)}
                     >
                       <div
                         className={
-                          playerGameType[i] === 'solo' || undefined
+                          playersGameType[i] === 'solo' || undefined
                             ? 'selectedTab'
                             : 'styleTab'
                         }
@@ -105,11 +109,11 @@ const SimpleCard = props => {
                       item
                       xs={4}
                       className='gameType'
-                      onClick={() => handleChangeGameType('duo', i)}
+                      onClick={() => handleChangePlayersGameType('duo', i)}
                     >
                       <div
                         className={
-                          playerGameType[i] === 'duo'
+                          playersGameType[i] === 'duo'
                             ? 'selectedTab'
                             : 'styleTab'
                         }
@@ -121,11 +125,11 @@ const SimpleCard = props => {
                       item
                       xs={4}
                       className='gameType'
-                      onClick={() => handleChangeGameType('squad', i)}
+                      onClick={() => handleChangePlayersGameType('squad', i)}
                     >
                       <div
                         className={
-                          playerGameType[i] === 'squad'
+                          playersGameType[i] === 'squad'
                             ? 'selectedTab'
                             : 'styleTab'
                         }
