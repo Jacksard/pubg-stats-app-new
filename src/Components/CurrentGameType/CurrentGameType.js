@@ -101,11 +101,11 @@ class currentGameType extends Component {
       //console.log('MaxValue: ' + maxValue);
       array.map((item, index) => {
         //  console.log(maxValue);
-        if (item === Number(maxValue)) {
+        if (item == Number(maxValue)) {
           result.push(index);
         }
-        return result;
       });
+      return result;
     }
   }
 

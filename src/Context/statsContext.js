@@ -23,6 +23,9 @@ class StatsContextProvider extends Component {
         isError: false,
         msg: ''
       },
+      statsData: {
+        solo: { kd: [] }
+      },
       comparisonData: {
         kd: { winners: [] },
         wins: { winners: [] },
@@ -178,15 +181,40 @@ class StatsContextProvider extends Component {
       array.map((item, index) => {
         //  console.log(maxValue);
         if (item === Number(maxValue)) {
-          result.push(index);
+          /* result.push(index); */
+          console.log('winner : ' + index);
+          return index;
         }
         console.log(result);
-        return result;
       });
     }
   }
 
   statsData() {
+    const winners = array => {
+      const result = [];
+      if (array.length === 1) {
+        return 0;
+      } else {
+        const indexOfMaxValue = array.reduce(
+          (indexMax, x, i, arr) => (x > arr[indexMax] ? i : indexMax),
+          0
+        );
+
+        const maxValue = array[indexOfMaxValue];
+        //console.log('MaxValue: ' + maxValue);
+        array.map((item, index) => {
+          //  console.log(maxValue);
+          if (item === Number(maxValue)) {
+            /* result.push(index); */
+            console.log('winner : ' + index);
+            return index;
+          }
+          console.log(result);
+        });
+      }
+    };
+
     // K/D
     const kd = this.state.playersArray.map(item =>
       parseFloat(
@@ -229,21 +257,28 @@ class StatsContextProvider extends Component {
 
     const comparisonCopy = this.state.comparisonData;
 
-    comparisonCopy.kd.winners = this.winners(kd);
-    comparisonCopy.wins.winners = this.winners(wins);
-    comparisonCopy.kills.winners = this.winners(kills);
-    comparisonCopy.top10s.winners = this.winners(top10s);
-    comparisonCopy.longestKill.winners = this.winners(longestKill);
-    comparisonCopy.headshotKills.winners = this.winners(headshotKills);
+    const newKd = winners(kd);
+    const newWins = winners(wins);
+    const newKills = winners(kills);
+    const newTop10s = winners(top10s);
+    const LongestKill = winners(longestKill);
+    const newHeadshotKills = winners(headshotKills);
 
-    console.log(comparisonCopy.kd.winners);
+    console.log(comparisonCopy);
 
-    this.setState({ comparisonData: comparisonCopy });
+    this.setState({
+      comparisonData: {
+        kd: { winners: [] },
+        wins: { winners: [] },
+        kills: { winners: [] },
+        top10s: { winners: [] },
+        longestKill: { winners: [] },
+        headshotKills: { winners: [] }
+      }
+    });
 
     console.log(this.state.comparisonData);
   }
-
-  componentDidMount() {}
 
   render() {
     return (
