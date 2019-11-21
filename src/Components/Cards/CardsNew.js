@@ -142,7 +142,7 @@ const SimpleCard = props => {
                       </div>
                     </Grid>
                   </Grid>
-                  <CurrentGameType i={i} />
+                  <CurrentGameType index={i} />
                   {/* <div className='fabDiv'>
                       <Fab
                         color='primary'

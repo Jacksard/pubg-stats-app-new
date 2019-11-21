@@ -76,7 +76,7 @@ class currentGameType extends Component {
 
     this.setState({ comparisonData: comparisonCopy });
 
-    //console.log(this.state.comparisonData);
+    console.log(this.state.comparisonData);
   }
 
   indexHighValue(array) {

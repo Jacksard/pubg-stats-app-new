@@ -5,11 +5,9 @@ import Squad from '../GameType/squad';
 import './CurrentGameType.css';
 import { StatsContext } from '../../Context/statsContext';
 
-const CurrentGameType = props => {
-  /* this.indexHighValue = this.indexHighValue.bind(this);
-    this.winners = this.winners.bind(this);
-    this.indexHighValue = this.indexHighValue.bind(this); */
+// learn Mutations and apply to change comparisonData from CurrentGameTypeNew.
 
+const CurrentGameType = props => {
   const {
     playersArray,
     playersGameType,
@@ -17,12 +15,44 @@ const CurrentGameType = props => {
     comparisonData
   } = useContext(StatsContext);
 
-  return (
-    <div>
-      <p>test : {props.i}</p>
+  const handleGameType = type => {
+    switch (type) {
+      case 'solo':
+        return (
+          <Solo
+            data={this.props.data}
+            index={this.props.index}
+            view={this.props.view}
+            comparisonData={this.state.comparisonData}
+          />
+        );
+      case 'duo':
+        return (
+          <Duo
+            data={this.props.data}
+            index={this.props.index}
+            view={this.props.view}
+            comparisonData={this.state.comparisonData}
+          />
+        );
+      case 'squad':
+        return (
+          <Squad
+            data={this.props.data}
+            index={this.props.index}
+            view={this.props.view}
+            comparisonData={this.state.comparisonData}
+          />
+        );
+      default:
+        return null;
+    }
+  };
 
-      {/*  {playersArray[props.i]}
-      {playersGameType[props.i]} */}
+  return (
+    <div className='currentGameType'>
+      <p>{props.index}</p>
+      {handleGameType(playersArray)}
     </div>
   );
 };
