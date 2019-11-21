@@ -24,12 +24,12 @@ class StatsContextProvider extends Component {
         msg: ''
       },
       comparisonData: {
-        kd: [],
-        wins: [],
-        kills: [],
-        top10s: [],
-        longestKill: [],
-        headshotKills: []
+        kd: { winners: [] },
+        wins: { winners: [] },
+        kills: { winners: [] },
+        top10s: { winners: [] },
+        longestKill: { winners: [] },
+        headshotKills: { winners: [] }
       }
     };
 
@@ -50,7 +50,6 @@ class StatsContextProvider extends Component {
   handleChangeName(event) {
     console.log(event.target.value);
     this.setState({ playerName: event.target.value });
-    this.handlePlayerSubmit(event);
   }
 
   // Handle Change view
@@ -88,14 +87,14 @@ class StatsContextProvider extends Component {
     newPlayersArray.splice(id, 1);
     this.setState({ playersArray: newPlayersArray });
     // splice player View from playersView arary
-    let newView = [...this.state.playersView];
+    let newView = [...this.state.playersViewType];
     newView.splice(id, 1);
     this.setState({ playersViewType: newView });
     // splice player View from playerGameType array
-    let newContent = [...this.state.playersGameType];
+    let newContent = this.state.playersGameType;
     newContent.splice(id, 1);
     this.setState({ playersGameType: newContent });
-    this.setState({ IsLoading: false });
+    this.setState({ isLoading: false });
     console.log(this.state.playersArray);
   }
 
@@ -121,7 +120,7 @@ class StatsContextProvider extends Component {
     console.log('user:' + userExist);
 
     if (userExist === undefined) {
-      await callPlayer(event.target.value)
+      await callPlayer(this.state.playerName)
         .then(res => {
           // Build Players Object and push it into PlayersArray.
           if (res === undefined) {
@@ -158,6 +157,40 @@ class StatsContextProvider extends Component {
     }
   }
 
+  componentDidMount() {
+    const kd = this.state.playersArray.map(item =>
+      parseFloat(
+        item.currentSeason.data.attributes.gameModeStats['solo-fpp'].kills /
+          item.currentSeason.data.attributes.gameModeStats['solo-fpp'].losses
+      ).toFixed(2)
+    );
+    // Wins
+    const wins = this.state.playersArray.map(
+      item => item.currentSeason.data.attributes.gameModeStats['solo-fpp'].wins
+    );
+    // Kills
+    const kills = this.state.playersArray.map(
+      item => item.currentSeason.data.attributes.gameModeStats['solo-fpp'].kills
+    );
+    // Top 10's
+    const top10s = this.state.playersArray.map(
+      item =>
+        item.currentSeason.data.attributes.gameModeStats['solo-fpp'].top10s
+    );
+    // Longest Kill
+    const longestKill = this.state.playersArray.map(item =>
+      item.currentSeason.data.attributes.gameModeStats[
+        'solo-fpp'
+      ].longestKill.toFixed(0)
+    );
+    // Kills
+    const headshotKills = this.state.playersArray.map(
+      item =>
+        item.currentSeason.data.attributes.gameModeStats['solo-fpp']
+          .headshotKills
+    );
+  }
+
   render() {
     return (
       <StatsContext.Provider
@@ -167,7 +200,8 @@ class StatsContextProvider extends Component {
           handleChangeName: this.handleChangeName,
           handlePlayerDelete: this.handlePlayerDelete,
           handleChangePlayersViewType: this.handleChangePlayersViewType,
-          handleChangePlayersGameType: this.handleChangePlayersGameType
+          handleChangePlayersGameType: this.handleChangePlayersGameType,
+          handlePlayerSubmit: this.handlePlayerSubmit
         }}
       >
         {this.props.children}

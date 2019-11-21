@@ -46,7 +46,11 @@ const SimpleCard = props => {
                 <Card className='card'>
                   <Grid container spacing={0}>
                     <Grid item xs={12} className='headLeft'>
-                      <CardHeader item={item} delete={handlePlayerDelete} />
+                      <CardHeader
+                        item={item}
+                        delete={handlePlayerDelete}
+                        index={i}
+                      />
                     </Grid>
                   </Grid>
 

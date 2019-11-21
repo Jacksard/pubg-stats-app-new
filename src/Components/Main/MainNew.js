@@ -12,14 +12,7 @@ const MainNew = () => {
     handleChangeName,
     playerName,
     buttonDisabled,
-    error,
-    isLoading,
-    playersArray,
-    playersViewType,
-    playersGameType,
-    handlePlayerDelete,
-    handleChangePlayersViewType,
-    handleChangePlayersGameType
+    error
   } = useContext(StatsContext);
 
   useEffect(() => {
