@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 
 import Loader from 'react-loader-spinner';
 import './Cards.css';
-import CurrentGameType from '../CurrentGameType/CurrentGameType';
+import CurrentGameType from '../CurrentGameType/CurrentGameTypeNew';
 import CardHeader from './CardHeader/CardHeader';
 import { StatsContext } from '../../Context/statsContext';
 
@@ -138,7 +138,7 @@ const SimpleCard = props => {
                       </div>
                     </Grid>
                   </Grid>
-
+                  <CurrentGameType i={i} />
                   {/* <div className='fabDiv'>
                       <Fab
                         color='primary'
