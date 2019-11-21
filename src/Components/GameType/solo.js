@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import './solo.css';
 import Grid from '@material-ui/core/Grid';
-import { StatsContext } from '../../Context/statsContext';
 
 const Solo = props => {
   const stats_kd_fpp = (

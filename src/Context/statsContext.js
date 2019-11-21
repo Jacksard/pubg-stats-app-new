@@ -1,4 +1,4 @@
-import React, { Component, createContext, useState, useEffect } from 'react';
+import React, { Component, createContext } from 'react';
 import { callPlayer } from '../api/axioscall';
 export const StatsContext = createContext();
 
@@ -49,6 +49,7 @@ class StatsContextProvider extends Component {
   // Handle Change name
   handleChangeName(event) {
     this.setState({ playerName: event.target.value });
+    this.handlePlayerSubmit(event);
   }
 
   // Handle Change view

@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import CardsNew from '../Cards/CardsNew';
+import Card from '../Cards/Cards_Original';
 import './MainNew.css';
 import { callPlayer } from '../../api/axioscall';
 import Button from '@material-ui/core/Button';
@@ -14,16 +15,16 @@ const MainNew = () => {
     error,
     isLoading,
     playersArray,
-    playerGameType,
-    playersView,
+    playersViewType,
+    playersGameType,
     handlePlayerDelete,
-    handleChangePlayersView,
-    handleChangeContent
+    handleChangePlayersViewType,
+    handleChangePlayersGameType
   } = useContext(StatsContext);
 
   useEffect(() => {
-    console.log('button: ' + buttonDisabled());
-  }, [playersArray]);
+    console.log(error.isError);
+  });
 
   return (
     <div className='mainContainer'>
@@ -34,8 +35,8 @@ const MainNew = () => {
           <input
             label='Name'
             className='inputField'
-            onChange={this.handleChangeName}
-            value={this.playerName}
+            onChange={handleChangeName}
+            value={playerName}
           />
           <br />
           <Button type='submit' value='Submit' className='submitButton'>
@@ -45,14 +46,14 @@ const MainNew = () => {
         <button
           onClick={handleChangeName}
           value='J4cksard'
-          disabled={isLoading}
+          disabled={buttonDisabled()}
         >
           J4cksard
         </button>
         <button
           onClick={handleChangeName}
           value='Twisted_OO'
-          disabled={buttonDisabled}
+          disabled={buttonDisabled()}
         >
           Twisted_OO
         </button>
@@ -68,6 +69,15 @@ const MainNew = () => {
       </form>
       <div className='cardContainer'>
         <ul>
+          <Card
+            view={playersViewType}
+            content={playersGameType}
+            changeContent={handleChangePlayersGameType}
+            changeView={handleChangePlayersViewType}
+            player={playersArray}
+            delete={handlePlayerDelete}
+            isLoading={isLoading}
+          />
           <CardsNew />
         </ul>
       </div>
