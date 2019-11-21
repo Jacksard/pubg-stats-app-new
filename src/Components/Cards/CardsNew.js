@@ -34,15 +34,7 @@ const SimpleCard = props => {
     }
   };
 
-  useEffect(() => {
-    console.log('test');
-    console.log(view);
-    console.log(playersView);
-    console.log(gameType);
-    console.log(playerGameType);
-    setView(playersView);
-    setGameType(playerGameType);
-  }, [playersView, playerGameType, playersArray]);
+  useEffect(() => {});
 
   return (
     <React.Fragment>

@@ -8,6 +8,6 @@ export const callPlayer = playerName => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      console.log('tttt:' + error);
     });
 };

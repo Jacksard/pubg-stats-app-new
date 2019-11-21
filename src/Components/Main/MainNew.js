@@ -23,7 +23,7 @@ const MainNew = () => {
   } = useContext(StatsContext);
 
   useEffect(() => {
-    console.log(error.isError);
+    /* console.log(error.isError); */
   });
 
   return (
@@ -78,7 +78,7 @@ const MainNew = () => {
             delete={handlePlayerDelete}
             isLoading={isLoading}
           />
-          <CardsNew />
+          {/* <CardsNew /> */}
         </ul>
       </div>
     </div>

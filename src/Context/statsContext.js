@@ -48,6 +48,7 @@ class StatsContextProvider extends Component {
 
   // Handle Change name
   handleChangeName(event) {
+    console.log(event.target.value);
     this.setState({ playerName: event.target.value });
     this.handlePlayerSubmit(event);
   }
@@ -108,9 +109,9 @@ class StatsContextProvider extends Component {
   }
 
   // Handle player submit
-  handlePlayerSubmit(event) {
+  async handlePlayerSubmit(event) {
     event.preventDefault();
-    this.setState({ IsLoading: true });
+    this.setState({ isLoading: true });
     console.log(this.state.playersArray);
     // check if player name exists in players array before callPlayer, to avoid redundant API call
     let userExist = this.state.playersArray.find(
@@ -120,30 +121,28 @@ class StatsContextProvider extends Component {
     console.log('user:' + userExist);
 
     if (userExist === undefined) {
-      callPlayer(this.state.playerName)
+      await callPlayer(event.target.value)
         .then(res => {
           // Build Players Object and push it into PlayersArray.
           if (res === undefined) {
-            this.setState({ isError: true });
-            this.setState({ msg: 'Player not found!' });
-            this.setState({ loading: false });
+            this.setState({ error: { isError: true } });
+            this.setState({ error: { msg: 'Player not found!' } });
+            this.setState({ isLoading: false });
           } else {
-            let joined = this.state.playersArray.concat(res);
-            this.setState({
-              playersArray: joined
-            });
+            let newPlayersArray = this.state.playersArray.concat(res);
+            this.setState({ playersArray: newPlayersArray });
             //console.log(this.state.playersArray);
             this.setState({
-              playerGameType: this.state.playerGameType.concat('solo')
+              playersGameType: this.state.playersGameType.concat('solo')
             });
             this.setState({
-              playersView: this.state.playersView.concat('fpp')
+              playersViewType: this.state.playersViewType.concat('fpp')
             });
             // Comparison data
 
             this.setState({ comparison: null });
 
-            this.setState({ loading: false });
+            this.setState({ isLoading: false });
             this.setState({ playerName: '' });
             //console.log(this.state.playerGameType);
             console.log(this.state.playersArray);
@@ -154,7 +153,7 @@ class StatsContextProvider extends Component {
         });
     } else {
       console.log('User added');
-      this.setState({ loading: false });
+      this.setState({ isLoading: false });
       return null;
     }
   }
@@ -165,7 +164,8 @@ class StatsContextProvider extends Component {
         value={{
           ...this.state,
           buttonDisabled: this.buttonDisabled,
-          handleChangeName: this.handleChangeName
+          handleChangeName: this.handleChangeName,
+          handlePlayerDelete: this.handlePlayerDelete
         }}
       >
         {this.props.children}
